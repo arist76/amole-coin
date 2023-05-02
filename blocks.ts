@@ -1,3 +1,4 @@
+import * as CryptoJS from 'crypto-js'
 import { createHash } from 'crypto'
 
 import { broadcastLatest } from "./connections.js"
@@ -56,9 +57,9 @@ function generateNextBlock(blockData: string): Block {
 }
 
 function calculateHash(index: number, previousHash: string, timestamp: number, data: string, difficulty: number, nonce: number): string {
-    return Buffer.from(createHash('sha256').update(
-        index + previousHash + timestamp + data
-    ).digest('hex')).toString('base64');
+        return CryptoJS.SHA256(
+            index + previousHash + timestamp + data + difficulty + nonce
+        ).toString();
 }
 
 function getLatestBlock(): any {
